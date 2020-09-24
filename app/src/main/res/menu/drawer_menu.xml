@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Home">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_home"
+                    android:icon="@drawable/ic_home"
+                    android:title="@string/menu_home" />
+                <item
+                    android:id="@+id/menu_category"
+                    android:icon="@drawable/ic_category"
+                    android:title="@string/menu_category" />
+                <item
+                    android:id="@+id/menu_suggested"
+                    android:icon="@drawable/ic_notifications"
+                    android:title="@string/menu_suggested" />
+            </group>
+        </menu>
+
+    </item>
+
+    <item android:title="We">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_about"
+                    android:icon="@drawable/ic_about"
+                    android:title="About Us" />
+                <item
+                    android:id="@+id/menu_contact"
+                    android:icon="@drawable/ic_mail"
+                    android:title="Contact Us" />
+                <item
+                    android:id="@+id/menu_fb"
+                    android:icon="@drawable/ic_facebook"
+                    android:title="Facebook" />
+                <item
+                    android:id="@+id/menu_yt"
+                    android:icon="@drawable/ic_youtube"
+                    android:title="YouTube" />
+
+            </group>
+
+        </menu>
+
+    </item>
+
+    <item android:title="App">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_share"
+                    android:icon="@drawable/ic_share"
+                    android:title="Share App" />
+                <item
+                    android:id="@+id/menu_rate"
+                    android:icon="@drawable/ic_star_half"
+                    android:title="Rate App" />
+
+                <item
+                    android:id="@+id/menu_exit"
+                    android:icon="@drawable/ic_exit_to_app"
+                    android:title="Exit App" />
+            </group>
+
+        </menu>
+
+    </item>
+
+</menu>

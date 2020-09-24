@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/color__primary</color>
+    <color name="colorPrimaryDark">@color/color__primary__dark</color>
+    <color name="colorAccent">@color/fb__deep</color>
+
+
+
+
+
+
+    <color name="color__primary">#0A78E9</color>
+    <color name="color__primary__dark">#0062E1</color>
+    <color name="fb__dark">#0084FF</color>
+    <color name="fb__light">#19AFFF</color>
+    <color name="fb__light2">#44BEFF</color>
+    <color name="fb__deep">#006FFF</color>
+    <color name="color__black">#000</color>
+    <color name="dark__gray">#454545</color>
+    <color name="color__gray">#999999</color>
+    <color name="color__silver">#C0C0C0</color>
+    <color name="color__white">#fff</color>
+    <color name="light__white">#EEEEEE</color>
+    <color name="color__bkash">#E3106E</color>
+
+
+    <color name="drawer_text">@color/color__silver</color>
+    <color name="drawer_icon">@color/color__silver</color>
+    <color name="semiTransparent">#C6000000</color>
+    <color name="default_text_color">#212121</color>
+
+
+    <color name="placeholder_bg">#dddddd</color>
+    <color name="item_name">#0c0c0c</color>
+    <color name="description">#1a1a1a</color>
+    <color name="chef">#777</color>
+    <color name="timestamp">#777</color>
+    <color name="white_light">#F6F6F6</color>
+</resources>
