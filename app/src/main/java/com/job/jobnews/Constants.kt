@@ -26,7 +26,7 @@ object Constants {
     /*const val banner_id = "ca-app-pub-3940256099942544/6300978111"
     const val interstitial_id = "ca-app-pub-3940256099942544/1033173712"*/
 
-    const val banner_id = "ca-app-pub-7707281179781435/1350199054"
-    const val interstitial_id = "ca-app-pub-7707281179781435/2861401903"
+    const val banner_id = "ca-app-pub-8966619761922033/3238263660"
+    const val interstitial_id = "ca-app-pub-8966619761922033/1925181994"
 
 }

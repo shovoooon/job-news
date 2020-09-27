@@ -47,6 +47,13 @@ interface Api {
         @Field("open_job") openJob:String = "open_job"
     ):Call<OpenJobResponse>
 
+    @FormUrlEncoded
+    @POST("app.php")
+    fun jobImages(
+        @Field("job_id") jobId:String,
+        @Field("job_images") jobImages:String = ""
+    ):Call<List<JobImagesResponse>>
+
 
     /*@FormUrlEncoded
     @POST("dashboard.php")

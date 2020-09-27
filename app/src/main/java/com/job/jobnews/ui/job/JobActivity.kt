@@ -14,6 +14,7 @@ import android.view.View.VISIBLE
 import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -22,8 +23,11 @@ import com.job.jobnews.App
 import com.job.jobnews.Constants
 import com.job.jobnews.MainActivity
 import com.job.jobnews.R
+import com.job.jobnews.adapter.JobAdapter
+import com.job.jobnews.adapter.JobImagesAdapter
 import com.job.jobnews.db.MyDatabase
 import com.job.jobnews.model.AddViewResponse
+import com.job.jobnews.model.JobImagesResponse
 import com.job.jobnews.model.JobResponse
 import com.job.jobnews.network.RetrofitClient
 import com.job.jobnews.utils.toast
@@ -33,7 +37,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class JobActivity : AppCompatActivity() {
+class JobActivity : AppCompatActivity(), JobImagesAdapter.OnItemClicked {
 
     private val LOG = "JobActivity"
     private var jobId = ""
@@ -46,6 +50,8 @@ class JobActivity : AppCompatActivity() {
     private val SAVE_IMG_REQUEST_CODE = 100
     private val DOWNLOAD_PDF_REQUEST_CODE = 101
     private lateinit var mInterstitialAd: InterstitialAd
+    private lateinit var adapter: JobImagesAdapter
+    private var imageList = ArrayList<JobImagesResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +66,10 @@ class JobActivity : AppCompatActivity() {
 
     private fun initialize() {
 
+        adapter = JobImagesAdapter(this, imageList, this)
+        rv_job_images.layoutManager = LinearLayoutManager(this)
+        rv_job_images.adapter = adapter
+
         if (intent.hasExtra("id")){
             jobId = intent.getStringExtra("id").toString()
             getJobData()
@@ -70,6 +80,8 @@ class JobActivity : AppCompatActivity() {
         loadInterAd()
 
         apiRequest()
+
+        getImages()
 
         startTimer()
 
@@ -85,8 +97,6 @@ class JobActivity : AppCompatActivity() {
 
         mInterstitialAd.adListener = object : AdListener() {
             override fun onAdClosed() {
-
-
                 super.onAdClosed()
             }
         }
@@ -155,6 +165,31 @@ class JobActivity : AppCompatActivity() {
 
     }
 
+    private fun getImages() {
+        RetrofitClient.instance.jobImages(jobId)
+            .enqueue(object : Callback<List<JobImagesResponse>>{
+                override fun onResponse(
+                    call: Call<List<JobImagesResponse>>,
+                    response: Response<List<JobImagesResponse>>
+                ) {
+                    Log.v(LOG, "Response code: ${response.code()} Body: " + response.body()!!.toString())
+
+                    if (response.code() == 200){
+                        if (response.body()!!.isNotEmpty()){
+                            imageList.clear()
+                            imageList.addAll(response.body()!!)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<JobImagesResponse>>, t: Throwable) {
+                    Log.v(LOG, t.message.toString())
+                }
+
+            })
+    }
+
     private fun apiRequest() {
 
         RetrofitClient.instance.jobs()
@@ -205,6 +240,8 @@ class JobActivity : AppCompatActivity() {
 
     private fun updateUI(body: JobResponse) {
 
+        progressBar2.visibility = GONE
+
         applyUrl = body.applyUrl
         extraUrl = body.extraUrl
         imgUrl = Constants.BASE_URL_IMG + body.jobImg
@@ -214,7 +251,7 @@ class JobActivity : AppCompatActivity() {
 
         try {
             Glide.with(this).load(coverUrl).into(imgJobCover)
-            Glide.with(this).load(imgUrl).into(imgJob)
+            //Glide.with(this).load(imgUrl).into(imgJob)
             tvJobTitle.text = body.title
             tvJobDetails.text = body.desc
             tvViews.text = body.views
@@ -251,9 +288,7 @@ class JobActivity : AppCompatActivity() {
     }
 
     fun saveImage(view: View) {
-        if (isPermissionGranted()) {
-            downloadImage()
-        }
+
     }
 
     fun downloadPdf(view: View) {
@@ -279,7 +314,12 @@ class JobActivity : AppCompatActivity() {
     }
 
 
-    private fun downloadImage() {
+    private fun downloadImage(imgUrl:String) {
+
+        if (mInterstitialAd.isLoaded) {
+            mInterstitialAd.show()
+            return
+        }
 
         val extension = MimeTypeMap.getFileExtensionFromUrl(imgUrl)
 
@@ -398,7 +438,7 @@ class JobActivity : AppCompatActivity() {
                     //permission granted
                     //go through downloading image
                     toast("Permission granted")
-                    downloadImage()
+                    //downloadImage()
 
                 } else {
                     toast("Permission denied")
@@ -439,6 +479,12 @@ class JobActivity : AppCompatActivity() {
             startActivity(intent)
         }else{
             super.onBackPressed()
+        }
+    }
+
+    override fun onClickBtnDownload(jobImg: String) {
+        if (isPermissionGranted()) {
+            downloadImage(Constants.BASE_URL_IMG+jobImg)
         }
     }
 }

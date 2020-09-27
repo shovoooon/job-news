@@ -1,4 +1,4 @@
-package com.job.news.ui
+package com.job.jobnews.ui
 
 import android.content.Intent
 import android.os.AsyncTask
@@ -27,10 +27,6 @@ import retrofit2.Response
 
 class HomeFragment : Fragment(), JobAdapter.OnItemClicked {
 
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
-
     private lateinit var viewModel: HomeViewModel
     private val LOG = "HomeFragment"
     private lateinit var adapter: JobAdapter
@@ -57,7 +53,7 @@ class HomeFragment : Fragment(), JobAdapter.OnItemClicked {
         rv_jobs.layoutManager = LinearLayoutManager(context)
         rv_jobs.adapter = adapter
 
-        loadLocalData()
+        //loadLocalData()
 
         apiRequest()
     }
@@ -87,6 +83,7 @@ class HomeFragment : Fragment(), JobAdapter.OnItemClicked {
     }
 
     private fun apiRequest() {
+        isLoading()
 
         RetrofitClient.instance.jobs()
                 .enqueue(object : Callback<List<JobResponse>>{
@@ -106,7 +103,7 @@ class HomeFragment : Fragment(), JobAdapter.OnItemClicked {
                         jobList.addAll(response.body()!!)
                         adapter.notifyDataSetChanged()
                         Log.v(LOG, jobList.toString())
-                        stopLoading()
+                        //stopLoading()
 
                         insertData(response.body()!!)
 
@@ -124,6 +121,11 @@ class HomeFragment : Fragment(), JobAdapter.OnItemClicked {
                 }catch (e: Exception){Log.e(LOG, "insert db: "+e.message.toString())}
 
                 return null
+            }
+
+            override fun onPostExecute(result: Void?) {
+                super.onPostExecute(result)
+                loadLocalData()
             }
         }
         InsertData().execute()

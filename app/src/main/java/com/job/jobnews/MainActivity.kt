@@ -25,6 +25,7 @@ import com.job.jobnews.network.RetrofitClient
 import com.job.jobnews.ui.*
 import com.job.jobnews.utils.toast
 import com.google.android.material.navigation.NavigationView
+import com.job.jobnews.ui.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.coroutines.CoroutineScope
@@ -65,10 +66,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         fragmentTransaction(HomeFragment(), getString(R.string.app_name))
         setSelectedDrawerMenu(R.id.menu_home)
-
-
-
-
 
 
         loadBannerAd()

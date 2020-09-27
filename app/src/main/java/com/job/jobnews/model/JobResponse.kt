@@ -27,6 +27,7 @@ data class JobResponse(
     val isPublished: String,
     @SerializedName("is_suggested")
     val isSuggested: String,
+    @ColumnInfo(defaultValue = "")
     @SerializedName("job_img")
     val jobImg: String,
     @SerializedName("last_date")
